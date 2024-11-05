@@ -4,7 +4,7 @@ Proof of concept for improving ab-testing workflow with local preview and improv
 
 Uses [Puppeteer](https://pptr.dev/) for local development and [Rollup](https://rollupjs.org/) for bundling.
 
-### Installation
+### Installation
 
 ```
 nvm install
@@ -13,7 +13,7 @@ npm install
 
 ### Usage
 
-Experiments are stored `experiments`, with one directory per experiment, like so:
+Experiments are stored in `experiments`, with one directory per experiment, like so:
 
 ```
 .
