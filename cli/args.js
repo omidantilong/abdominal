@@ -4,8 +4,8 @@ export function args() {
   const { positionals } = parseArgs({
     allowPositionals: true,
   })
-  const experiment = positionals[0]
-  const script = positionals[1]
+
+  const [experiment, script] = positionals
 
   return { experiment, script }
 }
