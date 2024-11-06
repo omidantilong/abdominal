@@ -1,5 +1,5 @@
 import { plop } from "./module"
-import { helper } from "../../common/helper"
+import { helper } from "../common/helper"
 console.log("hello")
 helper()
 //window.addEventListener("DOMContentLoaded", () => {
