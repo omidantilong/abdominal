@@ -42,12 +42,12 @@ export async function launch({ experiment, script }) {
     const rebuild = cookies.find((cookie) => cookie.name === "abscaffold.rebuild")
 
     if (rebuild) {
+      await page.deleteCookie({ name: "abscaffold.rebuild" })
       cachedBuildResult = await build({ experiment, script, write: false })
     }
 
     const { code } = cachedBuildResult
 
-    await page.deleteCookie({ name: "abscaffold.rebuild" })
     await page.waitForNetworkIdle()
     await page.waitForSelector("body")
 
