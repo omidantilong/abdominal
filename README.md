@@ -47,4 +47,4 @@ This will output a bundle into `dist` inside the experiment folder.
 - Proper HMR (or at least live reload)
 - Preview multiple tests simultaneously on the same page
 - Test harness (stick with Puppeteer or use Playwright? Should CLI syntax use same positionals as launch/build?)
-- Find another way to trigger script injection that doesnt rely on DOMContentLoaded (so that tests can use this event themselves)
+- Find another way to trigger script injection that doesnt rely on DOMContentLoaded (so that tests can use this event themselves? Not sure how useful this is as I think Target tests will always be added after DOMContentLoaded anyway)
