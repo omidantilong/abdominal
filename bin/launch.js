@@ -48,7 +48,7 @@ export async function launch({ experiment, script }) {
 
     const { code } = cachedBuildResult
 
-    await page.waitForNetworkIdle()
+    //await page.waitForNetworkIdle()
     await page.waitForSelector("body")
 
     await page.addScriptTag({ content: code })
