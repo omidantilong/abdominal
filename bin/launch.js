@@ -1,7 +1,9 @@
+import { readFile } from "node:fs/promises"
 import puppeteer from "puppeteer"
 import chokidar from "chokidar"
-import { readFile } from "node:fs/promises"
+import pc from "picocolors"
 import { build } from "./build.js"
+import { log } from "./log.js"
 
 async function loadConfig({ experiment }) {
   try {
@@ -28,6 +30,8 @@ export async function launch({ experiment, script }) {
   })
 
   const [page] = await browser.pages()
+
+  log(pc.cyan(`Launched ${pc.bold(`${experiment}/${script}`)}`))
 
   page.on("framenavigated", async () => {
     const { code } = await build({ experiment, script, write: false })

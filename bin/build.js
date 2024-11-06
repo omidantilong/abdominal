@@ -1,6 +1,7 @@
 import { rollup } from "rollup"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import pc from "picocolors"
+import { log } from "./log.js"
 
 export async function build({ experiment, script, write = false }) {
   const startTime = performance.now()
@@ -29,8 +30,8 @@ export async function build({ experiment, script, write = false }) {
 
   const endTime = performance.now()
 
-  console.log(
-    pc.green(`Built ${pc.bold(output.fileName)} in ${(endTime - startTime).toFixed(1)}ms`)
+  log(
+    pc.green(`Built ${pc.bold(`${experiment}/${script}`)} in ${(endTime - startTime).toFixed(1)}ms`)
   )
 
   return output
