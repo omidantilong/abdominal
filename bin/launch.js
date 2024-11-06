@@ -33,14 +33,16 @@ export async function launch({ experiment, script }) {
 
   log(pc.cyan(`Launched ${pc.bold(`${experiment}/${script}`)}`))
 
+  await page.goto(config.url)
+
   page.on("framenavigated", async () => {
     const { code } = await build({ experiment, script, write: false })
+
     await page.waitForNetworkIdle()
     await page.waitForSelector("body")
+
     await page.addScriptTag({ content: code })
   })
-
-  await page.goto(config.url)
 
   watcher.on("change", () => page.reload())
 }
