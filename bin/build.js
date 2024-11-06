@@ -1,7 +1,10 @@
 import { rollup } from "rollup"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
+import pc from "picocolors"
 
 export async function build({ experiment, script, write = false }) {
+  const startTime = performance.now()
+
   const plugins = [
     // alias({
     //   entries: {
@@ -22,7 +25,15 @@ export async function build({ experiment, script, write = false }) {
     entryFileNames: `[name].js`,
   }
 
-  return await createRollupBundle({ inputOptions, outputOptions, write })
+  const output = await createRollupBundle({ inputOptions, outputOptions, write })
+
+  const endTime = performance.now()
+
+  console.log(
+    pc.green(`Built ${pc.bold(output.fileName)} in ${(endTime - startTime).toFixed(1)}ms`)
+  )
+
+  return output
 }
 
 async function createRollupBundle({ inputOptions, outputOptions, write }) {
