@@ -1,4 +1,5 @@
 import puppeteer from "puppeteer"
+import chokidar from "chokidar"
 import { readFile } from "node:fs/promises"
 import { build } from "./build.js"
 
@@ -16,6 +17,11 @@ async function loadConfig({ experiment }) {
 export async function launch({ experiment, script }) {
   const config = await loadConfig({ experiment })
   const { code } = await build({ experiment, script, write: false })
+
+  const watcher = chokidar.watch(`./experiments/${experiment}`, {
+    //awaitWriteFinish: true,
+  })
+
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
@@ -33,4 +39,6 @@ export async function launch({ experiment, script }) {
     const { code } = await build({ experiment, script, write: false })
     return await page.addScriptTag({ content: code })
   })
+
+  watcher.on("change", (path) => page.reload())
 }
