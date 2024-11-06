@@ -2,13 +2,13 @@ import puppeteer from "puppeteer"
 import { readFile } from "node:fs/promises"
 import { build } from "./build.js"
 
-export async function launch(experiment, script) {
+export async function launch({ experiment, script }) {
   try {
     const config = await readFile(`experiments/${experiment}/config.json`).then((res) =>
       JSON.parse(res.toString())
     )
 
-    const { code } = await build(experiment, script)
+    const { code } = await build({ experiment, script, write: false })
 
     const browser = await puppeteer.launch({
       headless: false,
@@ -23,7 +23,7 @@ export async function launch(experiment, script) {
     await page.addScriptTag({ content: code })
 
     page.on("domcontentloaded", async () => {
-      const { code } = await build(experiment, script)
+      const { code } = await build({ experiment, script, write: false })
       return await page.addScriptTag({ content: code })
     })
   } catch (e) {

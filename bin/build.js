@@ -1,7 +1,7 @@
 import { rollup } from "rollup"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 
-export async function build(experiment, script) {
+export async function build({ experiment, script, write = false }) {
   const plugins = [
     // alias({
     //   entries: {
@@ -22,15 +22,17 @@ export async function build(experiment, script) {
     entryFileNames: `[name].js`,
   }
 
-  const { fileName, code } = await createRollupBundle(inputOptions, outputOptions)
+  const { fileName, code } = await createRollupBundle({ inputOptions, outputOptions, write })
 
   return { fileName, code }
 }
 
-async function createRollupBundle(inputOptions, outputOptions) {
+async function createRollupBundle({ inputOptions, outputOptions, write }) {
   try {
     const bundle = await rollup(inputOptions)
-    const generated = await bundle.write(outputOptions)
+    const generated = write
+      ? await bundle.write(outputOptions)
+      : await bundle.generate(outputOptions)
     const chunk = generated.output[0]
 
     await bundle.close()
