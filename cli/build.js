@@ -7,4 +7,4 @@ async function run() {
   await build({ experiment, script, write: true })
 }
 
-run().then(() => console.log("Done"))
+run()

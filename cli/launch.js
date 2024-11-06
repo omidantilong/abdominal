@@ -7,4 +7,4 @@ async function run() {
   await launch({ experiment, script })
 }
 
-run().then(() => console.log("Running"))
+run()
