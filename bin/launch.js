@@ -5,7 +5,7 @@ import { build } from "./build.js"
 
 async function loadConfig({ experiment }) {
   try {
-    return await readFile(`experiments/${experiment}/config.json`).then((res) =>
+    return await readFile(`./experiments/${experiment}/config.json`).then((res) =>
       JSON.parse(res.toString())
     )
   } catch (e) {
