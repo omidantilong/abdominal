@@ -16,7 +16,6 @@ async function loadConfig({ experiment }) {
 
 export async function launch({ experiment, script }) {
   const config = await loadConfig({ experiment })
-  const { code } = await build({ experiment, script, write: false })
 
   const watcher = chokidar.watch(`./experiments/${experiment}`, {
     //awaitWriteFinish: true,
@@ -28,17 +27,16 @@ export async function launch({ experiment, script }) {
     devtools: true,
   })
 
-  const page = await browser.newPage()
+  const [page] = await browser.pages()
 
-  await page.goto(config.url)
-  await page.waitForNetworkIdle()
-  await page.waitForSelector("body")
-  await page.addScriptTag({ content: code })
-
-  page.on("domcontentloaded", async () => {
+  page.on("framenavigated", async () => {
     const { code } = await build({ experiment, script, write: false })
-    return await page.addScriptTag({ content: code })
+    await page.waitForNetworkIdle()
+    await page.waitForSelector("body")
+    await page.addScriptTag({ content: code })
   })
 
-  watcher.on("change", (path) => page.reload())
+  await page.goto(config.url)
+
+  watcher.on("change", () => page.reload())
 }
