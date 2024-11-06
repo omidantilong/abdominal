@@ -13,6 +13,7 @@
   "description": "",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.3.0",
+    "chokidar": "^4.0.1",
     "puppeteer": "^23.7.0",
     "rollup": "^4.24.4"
   }
