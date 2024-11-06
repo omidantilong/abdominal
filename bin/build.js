@@ -22,9 +22,7 @@ export async function build({ experiment, script, write = false }) {
     entryFileNames: `[name].js`,
   }
 
-  const { fileName, code } = await createRollupBundle({ inputOptions, outputOptions, write })
-
-  return { fileName, code }
+  return await createRollupBundle({ inputOptions, outputOptions, write })
 }
 
 async function createRollupBundle({ inputOptions, outputOptions, write }) {
