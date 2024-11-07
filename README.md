@@ -32,7 +32,7 @@ Given that directory structure, you can now run:
 npm run launch ab-1 variant.js
 ```
 
-This will start a Puppeteer instance and load the URL defined in `config.json`, with `variant.js` injected into the page. As you make changes to `variant.js`, simply reload the page in Puppeteer and the test will re-fire.
+This will start a Puppeteer instance and load the URL defined in `config.json`, with `variant.js` injected into the page. The page will automatically update when you save changes to `variant.js`.
 
 To build for production, run:
 
