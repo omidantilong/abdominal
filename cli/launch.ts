@@ -1,4 +1,4 @@
-import { args } from "./args.js"
+import { args } from "./args"
 import { launch } from "../bin/launch.js"
 
 async function run() {

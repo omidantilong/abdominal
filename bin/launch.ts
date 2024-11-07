@@ -5,7 +5,7 @@ import pc from "picocolors"
 import { build } from "./build.js"
 import { log } from "./log.js"
 
-async function loadConfig({ experiment }) {
+async function loadConfig({ experiment }: { experiment: string }) {
   try {
     return await readFile(`./experiments/${experiment}/config.json`).then((res) =>
       JSON.parse(res.toString())
@@ -16,7 +16,7 @@ async function loadConfig({ experiment }) {
   }
 }
 
-export async function launch({ experiment, script }) {
+export async function launch({ experiment, script }: { experiment: string; script: string }) {
   const config = await loadConfig({ experiment })
 
   const watcher = chokidar.watch(`./experiments/${experiment}`, {
@@ -38,10 +38,12 @@ export async function launch({ experiment, script }) {
   await page.goto(config.url)
 
   page.on("framenavigated", async () => {
-    const { code } = cachedBuildResult
+    if (cachedBuildResult) {
+      const { code } = cachedBuildResult
 
-    await page.waitForSelector("body")
-    await page.addScriptTag({ content: code })
+      await page.waitForSelector("body")
+      await page.addScriptTag({ content: code })
+    }
   })
 
   watcher.on("change", async () => {

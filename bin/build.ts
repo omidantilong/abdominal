@@ -1,12 +1,22 @@
 import { rollup } from "rollup"
+import type { Plugin, RollupOutput, InputOptions, OutputOptions } from "rollup"
+
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import pc from "picocolors"
 import { log } from "./log.js"
 
-export async function build({ experiment, script, write = false }) {
+export async function build({
+  experiment,
+  script,
+  write = false,
+}: {
+  experiment: string
+  script: string
+  write: boolean
+}) {
   const startTime = performance.now()
 
-  const plugins = [
+  const plugins: Array<Plugin> = [
     // alias({
     //   entries: {
     //     "@": "./src",
@@ -18,9 +28,9 @@ export async function build({ experiment, script, write = false }) {
   ]
 
   const input = `./experiments/${experiment}/${script}`
-  const inputOptions = { input, plugins }
+  const inputOptions: InputOptions = { input, plugins }
 
-  const outputOptions = {
+  const outputOptions: OutputOptions = {
     format: "iife",
     dir: `./experiments/${experiment}/dist`,
     entryFileNames: `[name].js`,
@@ -37,10 +47,18 @@ export async function build({ experiment, script, write = false }) {
   return output
 }
 
-async function createRollupBundle({ inputOptions, outputOptions, write }) {
+async function createRollupBundle({
+  inputOptions,
+  outputOptions,
+  write,
+}: {
+  inputOptions: InputOptions
+  outputOptions: OutputOptions
+  write: boolean
+}) {
   try {
     const bundle = await rollup(inputOptions)
-    const generated = write
+    const generated: RollupOutput = write
       ? await bundle.write(outputOptions)
       : await bundle.generate(outputOptions)
     const chunk = generated.output[0]

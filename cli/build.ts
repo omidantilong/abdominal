@@ -1,4 +1,4 @@
-import { args } from "./args.js"
+import { args } from "./args"
 import { build } from "../bin/build.js"
 
 async function run() {
