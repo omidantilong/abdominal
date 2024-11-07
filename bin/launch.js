@@ -38,24 +38,15 @@ export async function launch({ experiment, script }) {
   await page.goto(config.url)
 
   page.on("framenavigated", async () => {
-    const cookies = await page.cookies()
-    const rebuild = cookies.find((cookie) => cookie.name === "abscaffold.rebuild")
-
-    if (rebuild) {
-      await page.deleteCookie({ name: "abscaffold.rebuild" })
-      cachedBuildResult = await build({ experiment, script, write: false })
-    }
-
     const { code } = cachedBuildResult
 
-    //await page.waitForNetworkIdle()
     await page.waitForSelector("body")
-
     await page.addScriptTag({ content: code })
   })
 
-  watcher.on("change", () => {
-    page.setCookie({ name: "abscaffold.rebuild", value: "true" })
+  watcher.on("change", async () => {
+    cachedBuildResult = await build({ experiment, script, write: false })
+
     page.reload()
   })
 }
