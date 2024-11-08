@@ -20,7 +20,7 @@ export async function launch({ experiment, script }: { experiment: string; scrip
   const config = await loadConfig({ experiment })
 
   const watcher = chokidar.watch(`./experiments/${experiment}`, {
-    //awaitWriteFinish: true,
+    ignored: (path) => path.includes(".test"),
   })
 
   const browser = await puppeteer.launch({
