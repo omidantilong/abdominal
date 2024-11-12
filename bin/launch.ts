@@ -9,7 +9,7 @@ export async function launch({ experiment, script }: { experiment: string; scrip
   const config = await loadConfig({ experiment })
 
   const watcher = chokidar.watch(`./experiments/${experiment}`, {
-    ignored: (path) => path.includes(".test"),
+    ignored: (path) => path.includes(".test") || path.includes(".json"),
   })
 
   const browser = await puppeteer.launch({
