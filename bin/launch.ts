@@ -23,12 +23,12 @@ export async function launch({ experiment, script }: { experiment: string; scrip
   log(pc.cyan(`Launched ${pc.bold(`${experiment}/${script}`)}`))
 
   let cachedBuildResult = await build({ experiment, script, write: false })
-
+  //console.log(cachedBuildResult)
   await page.goto(config.url)
 
   page.on("framenavigated", async () => {
     if (cachedBuildResult) {
-      const { code } = cachedBuildResult
+      const { code } = cachedBuildResult[script]
 
       await page.waitForSelector("body")
       await page.addScriptTag({ content: code })

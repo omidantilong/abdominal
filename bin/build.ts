@@ -1,9 +1,10 @@
 import { rollup } from "rollup"
-import type { Plugin, RollupOutput, InputOptions, OutputOptions } from "rollup"
+import type { Plugin, RollupOutput, InputOptions, OutputOptions, OutputChunk } from "rollup"
 
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import pc from "picocolors"
 import { log } from "./log"
+import { loadConfig } from "./load-config"
 
 export async function build({
   experiment,
@@ -14,7 +15,18 @@ export async function build({
   script: string
   write: boolean
 }) {
-  const startTime = performance.now()
+  const config = await loadConfig({ experiment })
+
+  const entries: Array<Record<string, string>> = []
+  const outputs: { [key: string]: OutputChunk } = {}
+
+  if (!script) {
+    entries.push(...config.experiments)
+  } else {
+    entries.push({ file: script, note: script })
+  }
+  console.log(entries)
+  //const startTime = performance.now()
 
   const plugins: Array<Plugin> = [
     // alias({
@@ -27,8 +39,8 @@ export async function build({
     //terser(),
   ]
 
-  const input = `./experiments/${experiment}/${script}`
-  const inputOptions: InputOptions = { input, plugins }
+  //const input = `./experiments/${experiment}/${script}`
+  //const inputOptions: InputOptions = { input, plugins }
 
   const outputOptions: OutputOptions = {
     format: "iife",
@@ -36,15 +48,23 @@ export async function build({
     entryFileNames: `[name].js`,
   }
 
-  const output = await createRollupBundle({ inputOptions, outputOptions, write })
+  for (const entry of new Set(entries)) {
+    const startTime: number = performance.now()
+    const inputOptions: InputOptions = {
+      input: `./experiments/${experiment}/${entry.file}`,
+      plugins,
+    }
+    const output = await createRollupBundle({ inputOptions, outputOptions, write })
+    const endTime: number = performance.now()
+    if (output) {
+      log(pc.green(`Built ${pc.bold(entry.file)} in ${(endTime - startTime).toFixed(1)}ms`))
+      outputs[entry.file] = output
+    }
+  }
 
-  const endTime = performance.now()
+  //console.log(outputs)
 
-  log(
-    pc.green(`Built ${pc.bold(`${experiment}/${script}`)} in ${(endTime - startTime).toFixed(1)}ms`)
-  )
-
-  return output
+  return outputs
 }
 
 async function createRollupBundle({

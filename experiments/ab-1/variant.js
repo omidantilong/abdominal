@@ -9,7 +9,7 @@ const container = document.createElement("div")
 container.textContent = "I'M A TEST LOL"
 container.setAttribute(
   "style",
-  "background:red;padding:20px;position:absolute;top:20px;left:20px;width:100%;z-index:9999"
+  "background:orange;padding:20px;position:absolute;top:20px;left:20px;width:100%;z-index:9999"
 )
 console.log(plop)
 document.body.appendChild(container)

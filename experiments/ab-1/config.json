@@ -1,3 +1,13 @@
 {
-  "url": "https://www.coop.co.uk/"
+  "url": "https://www.coop.co.uk/",
+  "experiments": [
+    {
+      "file": "variant.js",
+      "note": "some silly little test"
+    },
+    {
+      "file": "another.js",
+      "note": "a second test file"
+    }
+  ]
 }
