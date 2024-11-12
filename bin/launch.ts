@@ -4,9 +4,9 @@ import pc from "picocolors"
 import { build } from "./build"
 import { log } from "./log"
 import { loadConfig } from "./load-config"
-import type { ExperimentBuildOutput } from "../types"
+import type { VariantOutput } from "../types"
 
-export async function launch({ experiment, script }: { experiment: string; script?: string }) {
+export async function launch({ experiment, variant }: { experiment: string; variant?: string }) {
   const config = await loadConfig({ experiment })
 
   const watcher = chokidar.watch(`./experiments/${experiment}`, {
@@ -25,21 +25,21 @@ export async function launch({ experiment, script }: { experiment: string; scrip
 
   log(pc.cyan(`Launched ${pc.bold(`${experiment}`)}`))
 
-  let cachedBuildResult: ExperimentBuildOutput = await build({ experiment })
-  let selectedExperiment: string = script || config.experiments[0].file
+  let cachedBuildResult: VariantOutput = await build({ experiment })
+  let selectedVariant: string = variant || config.variants[0].file
 
-  await page.goto(`${config.url}?exp=${selectedExperiment}`)
+  await page.goto(`${config.url}?ab=${selectedVariant}`)
 
   page.on("framenavigated", async () => {
     const url = new URL(page.url())
     const params = new URLSearchParams(url.search)
     const injectableCode: Array<string> = []
 
-    if (params.has("exp") && cachedBuildResult) {
-      selectedExperiment = params.get("exp")!
+    if (params.has("ab") && cachedBuildResult) {
+      selectedVariant = params.get("ab")!
 
-      if (cachedBuildResult[selectedExperiment]) {
-        injectableCode.push(cachedBuildResult[selectedExperiment].code)
+      if (cachedBuildResult[selectedVariant]) {
+        injectableCode.push(cachedBuildResult[selectedVariant].code)
       }
     }
 
@@ -49,7 +49,7 @@ export async function launch({ experiment, script }: { experiment: string; scrip
       await page.addScriptTag({
         content: `
         window.abdominalRuntimeParams = ${JSON.stringify({
-          selected: selectedExperiment,
+          selected: selectedVariant,
           config,
         })}; 
       `,
@@ -65,7 +65,7 @@ export async function launch({ experiment, script }: { experiment: string; scrip
 
   watcher.on("change", async (path) => {
     cachedBuildResult = await build({ experiment })
-    if (path.endsWith(selectedExperiment)) {
+    if (path.endsWith(selectedVariant)) {
       page.reload()
     }
   })

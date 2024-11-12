@@ -5,7 +5,7 @@ export function args() {
     allowPositionals: true,
   })
 
-  const [experiment, script] = positionals
+  const [experiment, variant] = positionals
 
-  return { experiment, script }
+  return { experiment, variant }
 }

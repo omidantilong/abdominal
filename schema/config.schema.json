@@ -4,19 +4,19 @@
   "description": "JSON Schema for authoring Abdominal config files",
   "type": "object",
   "additionalProperties": false,
-  "required": ["url", "experiments"],
+  "required": ["url", "variants"],
   "properties": {
     "url": {
       "type": "string",
-      "description": "The URL to run experiments against"
+      "description": "The URL to run variants against"
     },
     "overlay": {
       "type": "boolean",
       "description": "Whether to enable the dev overlay in launch mode"
     },
-    "experiments": {
+    "variants": {
       "type": "array",
-      "description": "List of script files for this experiment",
+      "description": "List of variants for this experiment",
       "items": {
         "type": "object",
         "required": ["file", "note"],

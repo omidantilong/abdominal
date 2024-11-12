@@ -1,6 +1,6 @@
 {
   "url": "https://www.coop.co.uk/",
-  "experiments": [
+  "variants": [
     {
       "file": "variant.js",
       "note": "some silly little test"

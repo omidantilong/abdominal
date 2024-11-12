@@ -1,10 +1,10 @@
 import type { OutputChunk } from "rollup"
 
-export interface ExperimentConfig {
+export interface VariantConfig {
   file: string
   note: string
 }
 
-export interface ExperimentBuildOutput {
+export interface VariantOutput {
   [key: string]: OutputChunk
 }

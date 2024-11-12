@@ -6,28 +6,28 @@ import { log } from "./log"
 import { loadConfig } from "./load-config"
 
 import type { Plugin, RollupOutput, InputOptions, OutputOptions, OutputChunk } from "rollup"
-import type { ExperimentConfig, ExperimentBuildOutput } from "../types"
+import type { VariantConfig, VariantOutput } from "../types"
 
 export async function build({
   experiment,
-  script = null,
+  variant = null,
   write = false,
   minify = false,
 }: {
   experiment: string
-  script?: string | null
+  variant?: string | null
   write?: boolean
   minify?: boolean
-}): Promise<ExperimentBuildOutput> {
+}): Promise<VariantOutput> {
   const config = await loadConfig({ experiment })
 
-  const entries: Array<ExperimentConfig> = []
-  const outputs: ExperimentBuildOutput = {}
+  const entries: Array<VariantConfig> = []
+  const outputs: VariantOutput = {}
 
-  if (!script) {
-    entries.push(...config.experiments)
+  if (!variant) {
+    entries.push(...config.variants)
   } else {
-    const entry = config.experiments.find((entry: ExperimentConfig) => entry.file === script)
+    const entry = config.variants.find((entry: VariantConfig) => entry.file === variant)
     if (entry) {
       entries.push(entry)
     }
