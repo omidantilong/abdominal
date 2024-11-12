@@ -1,36 +1,41 @@
 import { rollup } from "rollup"
-import type { Plugin, RollupOutput, InputOptions, OutputOptions, OutputChunk } from "rollup"
-
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
-
 import pc from "picocolors"
 import { log } from "./log"
 import { loadConfig } from "./load-config"
 
+import type { Plugin, RollupOutput, InputOptions, OutputOptions, OutputChunk } from "rollup"
+import type { ExperimentConfig, ExperimentBuildOutput } from "../types"
+
 export async function build({
   experiment,
-  script,
+  script = null,
   write = false,
   minify = false,
 }: {
   experiment: string
-  script: string
+  script?: string | null
   write?: boolean
   minify?: boolean
-}) {
+}): Promise<ExperimentBuildOutput> {
   const config = await loadConfig({ experiment })
 
-  const entries: Array<Record<string, string>> = []
-  const outputs: { [key: string]: OutputChunk } = {}
+  const entries: Array<ExperimentConfig> = []
+  const outputs: ExperimentBuildOutput = {}
 
   if (!script) {
     entries.push(...config.experiments)
   } else {
-    entries.push({ file: script, note: script })
+    const entry = config.experiments.find((entry: ExperimentConfig) => entry.file === script)
+    if (entry) {
+      entries.push(entry)
+    }
   }
-  console.log(entries)
-  //const startTime = performance.now()
+
+  if (!entries.length) {
+    process.exit(1)
+  }
 
   const plugins: Array<Plugin> = [
     // alias({
@@ -45,9 +50,6 @@ export async function build({
   if (minify) {
     plugins.push(terser())
   }
-
-  //const input = `./experiments/${experiment}/${script}`
-  //const inputOptions: InputOptions = { input, plugins }
 
   const outputOptions: OutputOptions = {
     format: "iife",
@@ -69,8 +71,6 @@ export async function build({
     }
   }
 
-  //console.log(outputs)
-
   return outputs
 }
 
@@ -82,7 +82,7 @@ async function createRollupBundle({
   inputOptions: InputOptions
   outputOptions: OutputOptions
   write: boolean
-}) {
+}): Promise<OutputChunk | undefined> {
   try {
     const bundle = await rollup(inputOptions)
     const generated: RollupOutput = write
