@@ -4,6 +4,7 @@
   "description": "JSON Schema for authoring Abdominal config files",
   "type": "object",
   "additionalProperties": false,
+  "required": ["url", "experiments"],
   "properties": {
     "url": {
       "type": "string",
@@ -18,6 +19,8 @@
       "description": "List of script files for this experiment",
       "items": {
         "type": "object",
+        "required": ["file", "note"],
+        "additionalProperties": false,
         "properties": {
           "file": {
             "type": "string",
