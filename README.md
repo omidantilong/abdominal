@@ -11,7 +11,7 @@ nvm install
 npm install
 ```
 
-### Usage
+### Configuring
 
 Experiments are stored in `experiments`, with one directory per experiment, like so:
 
@@ -26,30 +26,12 @@ Experiments are stored in `experiments`, with one directory per experiment, like
         └── ...
 ```
 
-Given that directory structure, you can now run:
-
-```
-npm run launch ab-1 variant.js
-```
-
-This will start a Puppeteer instance and load the URL defined in `config.json`, with `variant.js` injected into the page. The page will automatically update when you save changes to `variant.js`.
-
-To build for production, run:
-
-```
-npm run build ab-1 variant.js
-```
-
-This will output a bundle into `dist` inside the experiment folder.
-
-### Configuration
-
-Each directory in `experiments` must have a `config.json` that uses the following schema:
+Each directory in `experiments` must have a `config.json` that uses the following schema. You can define as many variants for each experiment as you like, and you can toggle between each variant when the browser launches.
 
 ```
 {
     "url": "http://example.com",
-    "experiments": [
+    "variants": [
         {
             "file": "variant.js",
             "note": "A short description of what the test does"
@@ -57,6 +39,34 @@ Each directory in `experiments` must have a `config.json` that uses the followin
     ]
 }
 ```
+
+### Launching
+
+Given that directory structure, you can now run:
+
+```
+npm run launch ab-1
+```
+
+This will start a Puppeteer instance and load the URL defined in `config.json`, with `variant.js` injected into the page. The page will automatically update when you save changes to `variant.js`.
+
+The launch command can also take a second parameter to activate a specific test on page load:
+
+```
+npm run launch ab-1 variant.js
+```
+
+### Building
+
+To build for production, run:
+
+```
+npm run build ab-1
+```
+
+This will output a minified version of each configured variant into `dist` inside the experiment folder. As with the launch script, you can pass a second parameter to build just one specific variant if necessary.
+
+Minification is handled by [terser](https://terser.org/). The bundled output is wrapped into an [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) by Rollup, ready to be shipped off to Adobe Target.
 
 ### TODO
 
