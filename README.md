@@ -30,13 +30,13 @@ Each directory in `experiments` must have a `config.json` that uses the followin
 
 ```
 {
-    "url": "http://example.com",
-    "variants": [
-        {
-            "file": "variant.js",
-            "note": "A short description of what the test does"
-        }
-    ]
+  "url": "http://example.com",
+  "variants": [
+    {
+      "file": "variant.js",
+      "note": "A short description of what the test does"
+    }
+  ]
 }
 ```
 
