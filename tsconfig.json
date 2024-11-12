@@ -24,5 +24,6 @@
   "include": [
     "bin",
     "cli",
+    "*.d.ts"
   ]
 }
