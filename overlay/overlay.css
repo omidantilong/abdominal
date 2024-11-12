@@ -9,11 +9,14 @@
   padding: 0.5rem 0;
   font-size: 0.875rem;
   min-width: 150px;
+  max-width: max-content;
   font-family: monospace !important;
   transition: transform 0.1s linear;
   transform: translateX(calc(100% - 28px));
   border-top-left-radius: 0.25rem;
   border-bottom-left-radius: 0.25rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .abdominal-wrapper:hover {
