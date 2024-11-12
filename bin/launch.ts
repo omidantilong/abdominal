@@ -2,8 +2,8 @@ import { readFile } from "node:fs/promises"
 import puppeteer from "puppeteer"
 import chokidar from "chokidar"
 import pc from "picocolors"
-import { build } from "./build.js"
-import { log } from "./log.js"
+import { build } from "./build"
+import { log } from "./log"
 
 async function loadConfig({ experiment }: { experiment: string }) {
   try {

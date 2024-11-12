@@ -3,7 +3,7 @@ import type { Plugin, RollupOutput, InputOptions, OutputOptions } from "rollup"
 
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import pc from "picocolors"
-import { log } from "./log.js"
+import { log } from "./log"
 
 export async function build({
   experiment,
