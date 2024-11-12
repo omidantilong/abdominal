@@ -34,7 +34,7 @@ Each directory in `experiments` must have a `config.json` that uses the followin
   "variants": [
     {
       "file": "variant.js",
-      "note": "A short description of what the test does"
+      "note": "A short description of what the variant script does"
     }
   ]
 }
@@ -50,7 +50,7 @@ npm run launch ab-1
 
 This will start a Puppeteer instance and load the URL defined in `config.json`, with `variant.js` injected into the page. The page will automatically update when you save changes to `variant.js`.
 
-The launch command can also take a second parameter to activate a specific test on page load:
+The launch command can also take a second parameter to activate a specific variant on page load:
 
 ```
 npm run launch ab-1 variant.js
