@@ -1,6 +1,6 @@
-## ab-scaffold
+# abdominal
 
-Proof of concept for improving ab-testing workflow with local preview and improved tooling.
+A nice(r) way to work on a/b tests locally, with live browser preview and improved build tooling.
 
 Uses [Puppeteer](https://pptr.dev/) for local development and [Rollup](https://rollupjs.org/) for bundling.
 
@@ -63,6 +63,6 @@ Each directory in `experiments` must have a `config.json` that uses the followin
 - ~~Proper HMR (or at least live reload)~~
 - ~~Don't rebuild bundle when reloading page in browser~~
 - ~~Find another way to trigger script injection that doesnt rely on DOMContentLoaded (so that tests can use this event themselves? Not sure how useful this is as I think Target tests will always be added after DOMContentLoaded anyway)~~
+- ~~Optionally define scripts in config rather than explicitly running with CLI. Config could specify scripts to run as part of the experiment, and launch script could allow selecting which ones to run/enable in a browser widget. Would also allow one build command to build multiple scripts if necessary~~
 - Preview multiple tests simultaneously on the same page
 - Test harness (stick with Puppeteer or use Playwright? Should CLI syntax use same positionals as launch/build?)
-- Optionally define scripts in config rather than explicitly running with CLI. Config could specify scripts to run as part of the experiment, and launch script could allow selecting which ones to run/enable in a browser widget. Would also allow one build command to build multiple scripts if necessary
