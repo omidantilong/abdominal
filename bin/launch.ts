@@ -22,7 +22,7 @@ export async function launch({ experiment, script }: { experiment: string; scrip
 
   log(pc.cyan(`Launched ${pc.bold(`${experiment}/${script}`)}`))
 
-  let cachedBuildResult = await build({ experiment, script, write: false })
+  let cachedBuildResult = await build({ experiment, script })
   //console.log(cachedBuildResult)
   await page.goto(config.url)
 
@@ -36,7 +36,7 @@ export async function launch({ experiment, script }: { experiment: string; scrip
   })
 
   watcher.on("change", async () => {
-    cachedBuildResult = await build({ experiment, script, write: false })
+    cachedBuildResult = await build({ experiment, script })
 
     page.reload()
   })

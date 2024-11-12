@@ -10,10 +10,12 @@ export async function build({
   experiment,
   script,
   write = false,
+  minify = false,
 }: {
   experiment: string
   script: string
-  write: boolean
+  write?: boolean
+  minify?: boolean
 }) {
   const config = await loadConfig({ experiment })
 
