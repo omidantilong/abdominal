@@ -42,6 +42,22 @@ npm run build ab-1 variant.js
 
 This will output a bundle into `dist` inside the experiment folder.
 
+### Configuration
+
+Each directory in `experiments` must have a `config.json` that uses the following schema:
+
+```
+{
+    "url": "http://example.com",
+    "experiments": [
+        {
+            "file": "variant.js",
+            "note": "A short description of what the test does"
+        }
+    ]
+}
+```
+
 ### TODO
 
 - ~~Proper HMR (or at least live reload)~~
