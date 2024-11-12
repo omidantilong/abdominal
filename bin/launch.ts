@@ -1,20 +1,9 @@
-import { readFile } from "node:fs/promises"
 import puppeteer from "puppeteer"
 import chokidar from "chokidar"
 import pc from "picocolors"
 import { build } from "./build"
 import { log } from "./log"
-
-async function loadConfig({ experiment }: { experiment: string }) {
-  try {
-    return await readFile(`./experiments/${experiment}/config.json`).then((res) =>
-      JSON.parse(res.toString())
-    )
-  } catch (e) {
-    console.log(e)
-    process.exit(1)
-  }
-}
+import { loadConfig } from "./load-config"
 
 export async function launch({ experiment, script }: { experiment: string; script: string }) {
   const config = await loadConfig({ experiment })
