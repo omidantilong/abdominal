@@ -2,6 +2,8 @@ import { rollup } from "rollup"
 import type { Plugin, RollupOutput, InputOptions, OutputOptions, OutputChunk } from "rollup"
 
 import { nodeResolve } from "@rollup/plugin-node-resolve"
+import terser from "@rollup/plugin-terser"
+
 import pc from "picocolors"
 import { log } from "./log"
 import { loadConfig } from "./load-config"
@@ -38,8 +40,11 @@ export async function build({
     // }),
     nodeResolve(),
     //swc(),
-    //terser(),
   ]
+
+  if (minify) {
+    plugins.push(terser())
+  }
 
   //const input = `./experiments/${experiment}/${script}`
   //const inputOptions: InputOptions = { input, plugins }
