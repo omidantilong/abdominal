@@ -1,4 +1,4 @@
-import { test as it, expect, vi, afterEach, describe } from "vitest"
+import { test as it, expect, vi, afterEach } from "vitest"
 import * as build from "../build"
 import * as rollup from "rollup"
 import * as log from "../log"
