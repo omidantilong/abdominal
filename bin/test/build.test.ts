@@ -1,5 +1,5 @@
 import { test as it, expect, vi, afterEach, describe } from "vitest"
-import * as builder from "../build"
+import * as build from "../build"
 import * as rollup from "rollup"
 import * as log from "../log"
 
@@ -38,12 +38,12 @@ afterEach(() => {
 })
 
 it("exits if no valid inputs are provided", async () => {
-  await builder.build({ experiment, variant: "variant-nope.js", write: false })
+  await build.build({ experiment, variant: "variant-nope.js", write: false })
   expect(global.process.exit).toHaveBeenCalledTimes(1)
 })
 
 it("compiles a single variant in memory when specified", async () => {
-  const output = await builder.build({ experiment, variant: "variant-a.js", write: false })
+  const output = await build.build({ experiment, variant: "variant-a.js", write: false })
 
   expect(rollup.rollup).toHaveBeenCalledTimes(1)
   expect(rollup.rollup).toHaveBeenCalledWith(
@@ -59,7 +59,7 @@ it("compiles a single variant in memory when specified", async () => {
 })
 
 it("compiles multiple variants in memory when variant is not specified", async () => {
-  const output = await builder.build({ experiment, write: false })
+  const output = await build.build({ experiment, write: false })
   expect(rollup.rollup).toHaveBeenCalledTimes(2)
   expect(rollup.rollup).toHaveBeenCalledWith(
     expect.objectContaining({ input: "./experiments/__test__/variant-a.js" })
@@ -75,7 +75,7 @@ it("compiles multiple variants in memory when variant is not specified", async (
 })
 
 it("compiles a single variant to disk when specified", async () => {
-  const output = await builder.build({ experiment, variant: "variant-a.js", write: true })
+  const output = await build.build({ experiment, variant: "variant-a.js", write: true })
 
   expect(rollup.rollup).toHaveBeenCalledTimes(1)
   expect(rollup.rollup).toHaveBeenCalledWith(
@@ -91,7 +91,7 @@ it("compiles a single variant to disk when specified", async () => {
 })
 
 it("compiles multiple variants to disk when variant is not specified", async () => {
-  const output = await builder.build({ experiment, write: true })
+  const output = await build.build({ experiment, write: true })
   expect(rollup.rollup).toHaveBeenCalledTimes(2)
   expect(rollup.rollup).toHaveBeenCalledWith(
     expect.objectContaining({ input: "./experiments/__test__/variant-a.js" })
@@ -107,7 +107,7 @@ it("compiles multiple variants to disk when variant is not specified", async () 
 })
 
 it("adds terser to plugin chain when minify is true", async () => {
-  await builder.build({ experiment, variant: "variant-a.js", write: true, minify: true })
+  await build.build({ experiment, variant: "variant-a.js", write: true, minify: true })
   expect(rollup.rollup).toHaveBeenCalledTimes(1)
   expect(rollup.rollup).toHaveBeenCalledWith(
     expect.objectContaining({
