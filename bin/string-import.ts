@@ -11,7 +11,7 @@ export function stringImport({
   const filter = createFilter(include, exclude)
 
   return {
-    name: "string",
+    name: "stringImport",
 
     transform(code: string, id: string) {
       if (filter(id)) {
