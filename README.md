@@ -76,3 +76,4 @@ Minification is handled by [terser](https://terser.org/). The bundled output is 
 - ~~Optionally define scripts in config rather than explicitly running with CLI. Config could specify scripts to run as part of the experiment, and launch script could allow selecting which ones to run/enable in a browser widget. Would also allow one build command to build multiple scripts if necessary~~
 - Preview multiple tests simultaneously on the same page
 - Test harness (stick with Puppeteer or use Playwright? Should CLI syntax use same positionals as launch/build?)
+- Fix [this issue](https://github.com/evanw/esbuild/issues/789) with esbuild cpu binaries
