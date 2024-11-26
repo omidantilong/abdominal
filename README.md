@@ -31,6 +31,7 @@ Each directory in `experiments` must have a `config.json` that uses the followin
 ```
 {
   "url": "http://example.com",
+  "note": "A short description of the experiment",
   "variants": [
     {
       "file": "variant.js",
