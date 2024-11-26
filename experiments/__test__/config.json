@@ -1,0 +1,14 @@
+{
+  "url": "https://www.example.com",
+  "note": "",
+  "variants": [
+    {
+      "file": "variant-a.js",
+      "note": "Test fixture variant a"
+    },
+    {
+      "file": "variant-b.js",
+      "note": "Test fixture variant b"
+    }
+  ]
+}
