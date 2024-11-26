@@ -16,10 +16,6 @@ function stringImport({
   include: Array<string> | string
   exclude?: Array<string> | string
 }) {
-  if (!include) {
-    throw Error("include option should be specified")
-  }
-
   const filter = createFilter(include, exclude)
 
   return {
