@@ -1,12 +1,53 @@
 import { rollup } from "rollup"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 import terser from "@rollup/plugin-terser"
+import { createFilter } from "@rollup/pluginutils"
+import { transform as transformCSS } from "lightningcss"
 import pc from "picocolors"
 import { log } from "./log"
 import { loadConfig } from "./load-config"
-
 import type { Plugin, RollupOutput, InputOptions, OutputOptions, OutputChunk } from "rollup"
 import type { VariantConfig, VariantOutput } from "../types"
+
+function stringImport({
+  include,
+  exclude,
+}: {
+  include: Array<string> | string
+  exclude?: Array<string> | string
+}) {
+  if (!include) {
+    throw Error("include option should be specified")
+  }
+
+  const filter = createFilter(include, exclude)
+
+  return {
+    name: "string",
+
+    transform(code: string, id: string) {
+      if (filter(id)) {
+        let output = ""
+        if (id.endsWith(".css")) {
+          const { code: css } = transformCSS({
+            filename: "",
+            code: Buffer.from(code),
+            minify: true,
+          })
+
+          output = css.toString()
+        } else {
+          // TODO: Could minify HTML here if needed
+          output = code
+        }
+
+        return {
+          code: `export default ${JSON.stringify(output)};`,
+        }
+      }
+    },
+  }
+}
 
 export async function build({
   experiment,
@@ -43,6 +84,9 @@ export async function build({
     //     "@": "./src",
     //   },
     // }),
+    stringImport({
+      include: ["**/*.html", "**/*.css"],
+    }),
     nodeResolve(),
     //swc(),
   ]
