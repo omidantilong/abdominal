@@ -25,3 +25,5 @@ dist-ssr
 
 # Custom
 .current
+
+__test__/dist
