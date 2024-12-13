@@ -14,6 +14,14 @@
       "type": "string",
       "description": "Quick summary of the experiment or a link to the JIRA ticket"
     },
+    "overlay": {
+      "type": "boolean",
+      "description": "(Optional) Toggle the ab test switcher overlay \n\n Default: true"
+    },
+    "devtools": {
+      "type": "boolean",
+      "description": "(Optional) Toggle whether Puppeteer should launch with devtools open \n\n Default: true"
+    },
     "variants": {
       "type": "array",
       "description": "List of variants for this experiment",

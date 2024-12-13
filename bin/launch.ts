@@ -13,13 +13,14 @@ export async function launch({ experiment, variant }: { experiment: string; vari
     ignored: (path) => path.includes(".test") || path.includes(".json"),
   })
 
+  const enableOverlay = "overlay" in config ? config.overlay : true
+  const enableDevtools = "devtools" in config ? config.devtools : true
+
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
-    devtools: true,
+    devtools: enableDevtools,
   })
-
-  const enableOverlay = "overlay" in config ? config.overlay : true
 
   const [page] = await browser.pages()
 
