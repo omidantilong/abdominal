@@ -43,18 +43,18 @@ it("exits if no valid inputs are provided", async () => {
 })
 
 it("compiles a single variant in memory when specified", async () => {
-  const output = await build.build({ experiment, variant: "variant-a.js", write: false })
+  const output = await build.build({ experiment, variant: "variant-simple.js", write: false })
 
   expect(rollup.rollup).toHaveBeenCalledTimes(1)
   expect(rollup.rollup).toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-a.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-simple.js" })
   )
   expect(rollup.rollup).not.toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-b.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-string-import.js" })
   )
 
   expect(output).toStrictEqual({
-    "variant-a.js": { fileName: "variant-a.js", __method: "generate" },
+    "variant-simple.js": { fileName: "variant-simple.js", __method: "generate" },
   })
 })
 
@@ -62,31 +62,31 @@ it("compiles multiple variants in memory when variant is not specified", async (
   const output = await build.build({ experiment, write: false })
   expect(rollup.rollup).toHaveBeenCalledTimes(2)
   expect(rollup.rollup).toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-a.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-simple.js" })
   )
   expect(rollup.rollup).toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-b.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-string-import.js" })
   )
 
   expect(output).toStrictEqual({
-    "variant-a.js": { fileName: "variant-a.js", __method: "generate" },
-    "variant-b.js": { fileName: "variant-b.js", __method: "generate" },
+    "variant-simple.js": { fileName: "variant-simple.js", __method: "generate" },
+    "variant-string-import.js": { fileName: "variant-string-import.js", __method: "generate" },
   })
 })
 
 it("compiles a single variant to disk when specified", async () => {
-  const output = await build.build({ experiment, variant: "variant-a.js", write: true })
+  const output = await build.build({ experiment, variant: "variant-simple.js", write: true })
 
   expect(rollup.rollup).toHaveBeenCalledTimes(1)
   expect(rollup.rollup).toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-a.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-simple.js" })
   )
   expect(rollup.rollup).not.toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-b.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-string-import.js" })
   )
 
   expect(output).toStrictEqual({
-    "variant-a.js": { fileName: "variant-a.js", __method: "write" },
+    "variant-simple.js": { fileName: "variant-simple.js", __method: "write" },
   })
 })
 
@@ -94,24 +94,24 @@ it("compiles multiple variants to disk when variant is not specified", async () 
   const output = await build.build({ experiment, write: true })
   expect(rollup.rollup).toHaveBeenCalledTimes(2)
   expect(rollup.rollup).toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-a.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-simple.js" })
   )
   expect(rollup.rollup).toHaveBeenCalledWith(
-    expect.objectContaining({ input: "./experiments/__test__/variant-b.js" })
+    expect.objectContaining({ input: "./experiments/__test__/variant-string-import.js" })
   )
 
   expect(output).toStrictEqual({
-    "variant-a.js": { fileName: "variant-a.js", __method: "write" },
-    "variant-b.js": { fileName: "variant-b.js", __method: "write" },
+    "variant-simple.js": { fileName: "variant-simple.js", __method: "write" },
+    "variant-string-import.js": { fileName: "variant-string-import.js", __method: "write" },
   })
 })
 
 it("adds terser to plugin chain when minify is true", async () => {
-  await build.build({ experiment, variant: "variant-a.js", write: true, minify: true })
+  await build.build({ experiment, variant: "variant-simple.js", write: true, minify: true })
   expect(rollup.rollup).toHaveBeenCalledTimes(1)
   expect(rollup.rollup).toHaveBeenCalledWith(
     expect.objectContaining({
-      input: "./experiments/__test__/variant-a.js",
+      input: "./experiments/__test__/variant-simple.js",
       plugins: expect.arrayContaining([expect.objectContaining({ name: "terser" })]),
     })
   )

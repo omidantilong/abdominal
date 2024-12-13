@@ -3,11 +3,11 @@
   "note": "",
   "variants": [
     {
-      "file": "variant-a.js",
+      "file": "variant-simple.js",
       "note": "Test fixture variant a"
     },
     {
-      "file": "variant-b.js",
+      "file": "variant-string-import.js",
       "note": "Test fixture variant b"
     }
   ]
