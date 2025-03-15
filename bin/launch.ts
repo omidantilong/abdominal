@@ -29,9 +29,7 @@ export async function launch({ experiment, variant }: { experiment: string; vari
   let cachedBuildResult: VariantOutput = await build({ experiment })
   let selectedVariant: string = variant || config.variants[0].file
 
-  await page.goto(`${config.url}?ab=${selectedVariant}`)
-
-  page.on("framenavigated", async () => {
+  page.on("domcontentloaded", async (req) => {
     const url = new URL(page.url())
     const params = new URLSearchParams(url.search)
     const injectableCode: Array<string> = []
@@ -63,6 +61,8 @@ export async function launch({ experiment, variant }: { experiment: string; vari
       await page.addScriptTag({ content })
     }
   })
+
+  await page.goto(`${config.url}?ab=${selectedVariant}`)
 
   watcher.on("change", async (path) => {
     cachedBuildResult = await build({ experiment })
